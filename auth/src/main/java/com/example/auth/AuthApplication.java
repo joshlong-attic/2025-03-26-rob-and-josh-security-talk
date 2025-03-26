@@ -3,6 +3,9 @@ package com.example.auth;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.http.MediaType;
+import org.springframework.security.config.Customizer;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetailsPasswordService;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
@@ -25,6 +28,23 @@ public class AuthApplication {
     }
 
 
+    @Bean
+    SecurityFilterChain mySecurityFilterChain(HttpSecurity http) throws Exception {
+        return http
+                .formLogin(Customizer.withDefaults())
+                .authorizeHttpRequests(ae -> ae.anyRequest().authenticated())
+                .oneTimeTokenLogin(ott -> ott
+                        .tokenGenerationSuccessHandler((request, response, oneTimeToken) -> {
+
+                            var value = oneTimeToken.getTokenValue();
+                            System.out.println("go to http://localhost:9090/login/ott?token=" + value);
+                            response.getWriter().print("you've got console mail!");
+                            response.setContentType(MediaType.TEXT_PLAIN.toString());
+//                                response.flushBuffer();
+
+                        }))
+                .build();
+    }
 
     @Bean
     PasswordEncoder passwordEncoder() {
