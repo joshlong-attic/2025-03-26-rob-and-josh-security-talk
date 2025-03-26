@@ -6,3 +6,48 @@ For the configuration, https://github.com/coffee-software-show/bootiful-grpc-con
 
 
 
+
+
+== where we are (rob + his trusty sidekick josh)
+
+- introduce authentication in the abstract (call it `auth`)
+	- start.spring.io
+	- jdbc, postgresql, web, authorization server, security, dev tools , testcontainers
+	- go to test main method, add `@RestartScope`
+	- security 101 + spring security 101 (authentication, authorization)
+	- introduce UserDetailsService for user management
+	- great but this is a password and its in memory
+	- ok switch to SQL DB with noop / sha pw
+	- add `schema.sql` and `data.sql`
+	- run SQL migration
+		- but how do we migrate if we are using testcontainers/
+		- docker ps and check mapped port for `5432`
+		-
+	- PasswordEncoderFactories.*
+	- it works
+	- password migration
+	- JDBC + UserDetailsManger
+	- one time tokens/magic links
+	- passkeys + webauthn
+	- this is great but its only one service, lets centralize
+	- turn into a Spring Auth Server
+- stand up a trivial service resource server
+	- `hello, rwinch!`
+- stand up a client  (oauth client)
+	- RestClient + token manually
+	- RestClient + autoconfig
+	- proxy with Spring Cloud Gateway + Oauth client
+	- `/api/**` → `resource`
+	- `/**` → CDN with vue app
+
+== ++ (rob)
+- Testjars
+- method security
+
+== where we're going (rob)
+
+TBD
+
+== curtsy.
+
+TBD
