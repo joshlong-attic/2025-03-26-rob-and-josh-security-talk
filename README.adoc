@@ -42,7 +42,7 @@ For the configuration, https://github.com/coffee-software-show/bootiful-grpc-con
 
 == ++ (rob)
 - Testjars
-- method security
+= - method security
 
 == where we're going (rob)
 
