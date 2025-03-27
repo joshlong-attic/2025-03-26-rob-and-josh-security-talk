@@ -20,6 +20,8 @@ import javax.sql.DataSource;
 import java.security.Principal;
 import java.util.Map;
 
+import static org.springframework.security.oauth2.server.authorization.config.annotation.web.configurers.OAuth2AuthorizationServerConfigurer.authorizationServer;
+
 @SpringBootApplication
 public class AuthApplication {
 
@@ -31,6 +33,7 @@ public class AuthApplication {
     @Bean
     SecurityFilterChain mySecurityFilterChain(HttpSecurity http) throws Exception {
         return http
+                .with(authorizationServer(), as -> as.oidc(Customizer.withDefaults()))
                 .formLogin(Customizer.withDefaults())
                 .authorizeHttpRequests(ae -> ae.anyRequest().authenticated())
                 .webAuthn(wa -> wa
@@ -39,12 +42,13 @@ public class AuthApplication {
                         .allowedOrigins("http://localhost:8080")
                 )
                 .oneTimeTokenLogin(ott -> ott
-                        .tokenGenerationSuccessHandler((request, response, oneTimeToken) -> {
+                        .tokenGenerationSuccessHandler((_, response, oneTimeToken) -> {
                             var value = oneTimeToken.getTokenValue();
                             System.out.println("go to http://localhost:8080/login/ott?token=" + value);
                             response.getWriter().print("you've got console mail!");
                             response.setContentType(MediaType.TEXT_PLAIN.toString());
                         }))
+
                 .build();
     }
 
@@ -81,6 +85,7 @@ public class AuthApplication {
     }
 */
 }
+/*
 
 @Controller
 @ResponseBody
@@ -91,3 +96,4 @@ class GreetingsController {
         return Map.of("greeting", "Hello " + principal.getName() + "!");
     }
 }
+*/
