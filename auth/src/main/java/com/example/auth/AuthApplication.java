@@ -33,15 +33,17 @@ public class AuthApplication {
         return http
                 .formLogin(Customizer.withDefaults())
                 .authorizeHttpRequests(ae -> ae.anyRequest().authenticated())
+                .webAuthn(wa -> wa
+                        .rpId("localhost")
+                        .rpName("Bootiful Apps")
+                        .allowedOrigins("http://localhost:8080")
+                )
                 .oneTimeTokenLogin(ott -> ott
                         .tokenGenerationSuccessHandler((request, response, oneTimeToken) -> {
-
                             var value = oneTimeToken.getTokenValue();
-                            System.out.println("go to http://localhost:9090/login/ott?token=" + value);
+                            System.out.println("go to http://localhost:8080/login/ott?token=" + value);
                             response.getWriter().print("you've got console mail!");
                             response.setContentType(MediaType.TEXT_PLAIN.toString());
-//                                response.flushBuffer();
-
                         }))
                 .build();
     }
@@ -84,7 +86,7 @@ public class AuthApplication {
 @ResponseBody
 class GreetingsController {
 
-    @GetMapping("/hi")
+    @GetMapping("/")
     Map<String, String> greetings(Principal principal) {
         return Map.of("greeting", "Hello " + principal.getName() + "!");
     }
