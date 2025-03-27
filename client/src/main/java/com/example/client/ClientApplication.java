@@ -12,7 +12,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestClient;
+import org.springframework.web.servlet.function.HandlerFunction;
 import org.springframework.web.servlet.function.RouterFunction;
+import org.springframework.web.servlet.function.ServerRequest;
 import org.springframework.web.servlet.function.ServerResponse;
 
 import static org.springframework.cloud.gateway.server.mvc.handler.HandlerFunctions.http;
@@ -33,17 +35,23 @@ public class ClientApplication {
 class GatewayConfiguration {
 
     @Bean
-    RouterFunction<ServerResponse> routerFunction() {
+    RouterFunction<ServerResponse> routerFunction(@RegisteredOAuth2AuthorizedClient OAuth2AuthorizedClient oAuth2AuthorizedClient) {
         return route()
                 .filter(TokenRelayFilterFunctions.tokenRelay())
-                .GET("/**", http("http://localhost:8081"))
+                .GET("/**", http("http://service.local.gd:8081"))
+                .GET("/**", new HandlerFunction<ServerResponse>() {
+                    @Override
+                    public ServerResponse handle(ServerRequest request) throws Exception {
+                        return null;
+                    }
+                })
                 .build();
     }
 }
 
 
 ///
-///  todo show how to autoconfigure the interceptor
+/// todo show how to autoconfigure the interceptor
 //@Controller
 @ResponseBody
 class ClientController {
@@ -58,7 +66,7 @@ class ClientController {
     ResponseEntity<?> index(@RegisteredOAuth2AuthorizedClient OAuth2AuthorizedClient authorizedClient) {
         return this.restClient
                 .get()
-                .uri("http://localhost:8081")
+                .uri("http://service.local.gd:8081")
                 .headers(http -> http
                         .setBearerAuth(authorizedClient.getAccessToken().getTokenValue())
                 )

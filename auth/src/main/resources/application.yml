@@ -15,7 +15,7 @@ spring:
                 - "authorization_code"
                 - "refresh_token"
               redirect-uris:
-                - "http://127.0.0.1:8082/login/oauth2/code/spring"
+                - "http://client.local.gd:8082/login/oauth2/code/spring"
               scopes:
                 - "openid"
                 - "profile"

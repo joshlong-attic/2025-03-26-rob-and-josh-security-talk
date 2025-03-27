@@ -12,13 +12,8 @@ import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.sql.DataSource;
-import java.security.Principal;
-import java.util.Map;
 
 import static org.springframework.security.oauth2.server.authorization.config.annotation.web.configurers.OAuth2AuthorizationServerConfigurer.authorizationServer;
 
@@ -33,7 +28,7 @@ public class AuthApplication {
     @Bean
     SecurityFilterChain mySecurityFilterChain(HttpSecurity http) throws Exception {
         return http
-                .with(authorizationServer(), as -> as.oidc(Customizer.withDefaults()))
+
                 .formLogin(Customizer.withDefaults())
                 .authorizeHttpRequests(ae -> ae.anyRequest().authenticated())
                 .webAuthn(wa -> wa
@@ -48,7 +43,7 @@ public class AuthApplication {
                             response.getWriter().print("you've got console mail!");
                             response.setContentType(MediaType.TEXT_PLAIN.toString());
                         }))
-
+                .with(authorizationServer(), as -> as.oidc(Customizer.withDefaults()))
                 .build();
     }
 

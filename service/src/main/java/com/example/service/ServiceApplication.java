@@ -16,7 +16,6 @@ public class ServiceApplication {
 
     @GetMapping("/")
     Map<String, Object> index(Principal principal) {
-        System.out.println("principal : " + principal);
         return Map.of("message", "Hello " + principal.getName());
     }
 
