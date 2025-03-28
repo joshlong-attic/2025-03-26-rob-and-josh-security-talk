@@ -42,6 +42,10 @@ For the configuration, https://github.com/coffee-software-show/bootiful-grpc-con
 
 == ++ (rob)
 - Testjars
+- Lots of moving parts require a detailed README, but we saw testcontainers can help for database, but what about our apps
+- testcontainers simple for authz and service
+- testcontainers for the real authz and service
+	
 = - method security
 
 == where we're going (rob)
