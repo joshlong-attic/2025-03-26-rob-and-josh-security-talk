@@ -40,4 +40,16 @@ class BankAccountServiceImplTest {
 		assertThatExceptionOfType(AccessDeniedException.class)
 				.isThrownBy(() -> this.account.findByOwner("rob"));
 	}
+
+	@Test
+	@WithMockAccountant
+	void findByIdWhenAccountantThenGranted() {
+		this.account.findById(1);
+	}
+
+	@Test
+	@WithMockAccountant
+	void findByOwnerWhenAccountantThenGranted() {
+		this.account.findByOwner("rob");
+	}
 }
