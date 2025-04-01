@@ -1,5 +1,6 @@
 package com.example.client;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.gateway.server.mvc.filter.TokenRelayFilterFunctions;
@@ -25,10 +26,10 @@ public class ClientApplication {
 class RouterConfiguration {
 
 	@Bean
-	RouterFunction<ServerResponse> routerFunction() {
+	RouterFunction<ServerResponse> routerFunction(@Value("${service.url}") String serviceUrl) {
 		return route()
 			.filter(TokenRelayFilterFunctions.tokenRelay())
-			.GET("/**", http("http://service.local.gd:8081"))
+			.GET("/**", http(serviceUrl))
 			.build();
 	}
 }
