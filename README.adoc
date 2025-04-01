@@ -4,32 +4,35 @@ Hi, Spring fans! In which the heroes secure the way.
 
 For the configuration, https://github.com/coffee-software-show/bootiful-grpc-config.git[see this repo]
 
-
-
-
-
 == where we are (rob + his trusty sidekick josh)
+- both: intros
 
 - introduce authentication in the abstract (call it `auth`)
 	- start.spring.io
-	- jdbc, postgresql, web, authorization server, security, dev tools , testcontainers
+	- jdbc, postgresql, web, authorization server, security, devtools , testcontainers
 	- go to test main method, add `@RestartScope`
-	- security 101 + spring security 101 (authentication, authorization)
-	- introduce UserDetailsService for user management
+	- RW: security 101 + spring security 101 (authentication, authorization)
+	- introduce in-memory `UserDetailsService` for user management
+	- `PasswordEncoderFactories` to encode passwords
 	- great but this is a password and its in memory
-	- ok switch to SQL DB with noop / sha pw
 	- add `schema.sql` and `data.sql`
+	- rename `application.properties` to `application.yml`
 	- run SQL migration
-		- but how do we migrate if we are using testcontainers/
-		- docker ps and check mapped port for `5432`
-		-
-	- PasswordEncoderFactories.*
-	- it works
+	    - copy `data.sql` and `schema.sql` to `auth/src/main/resources`
+		- add `sql.init.mode=always` to `application.yml`
+	- inspect SQL DB and verify passwords are sha prefixed: run `bin/db.sh` to login to DB
+	- login
+	- inspect SQL DB again and verify passwords are bcrypt
 	- password migration
-	- JDBC + UserDetailsManger
-	- one time tokens/magic links
-	- passkeys + webauthn
-	- this is great but its only one service, lets centralize
+	- JDBC + `JdbcUserDetailsManager` + `UserDetailsPasswordService` (which injects `JdbcUserDetailsManager`)
+	- passkeys: josh does code but no idea where to go after
+	- passkeys + webauthn: `http://localhost:8080`
+	- RL: walk josh through registering and using a passkey via iPhone / separate device
+	- RL: explanation of the details
+	- alternatively, sometimes u may just want a slightly easier-to-ensure alternative factor. Enter OTT.
+	- one time tokens/magic links: use `localhost:8080`: `login/ott?token=...`
+	- this is great but its only one service, lets centralize. maybe OAuth
+	- RW: OAuth for fun and profit!
 	- turn into a Spring Auth Server
 - stand up a trivial service resource server
 	- `hello, rwinch!`
