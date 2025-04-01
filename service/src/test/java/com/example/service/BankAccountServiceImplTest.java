@@ -28,4 +28,16 @@ class BankAccountServiceImplTest {
 			.isThrownBy(() -> this.account.findById(1));
 	}
 
+	@Test
+	@WithMockUser("rob")
+	void findByOwnerWhenGranted() {
+		this.account.findByOwner("rob");
+	}
+
+	@Test
+	@WithMockUser("josh")
+	void findByOwnerWhenDenied() {
+		assertThatExceptionOfType(AccessDeniedException.class)
+				.isThrownBy(() -> this.account.findByOwner("rob"));
+	}
 }

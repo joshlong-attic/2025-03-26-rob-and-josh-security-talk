@@ -10,4 +10,11 @@ public class BankAccountServiceImpl implements BankAccountService {
 
 		return account;
 	}
+
+	@Override
+	public BankAccount findByOwner(String owner) {
+		BankAccount account = new BankAccount(1, owner, "12345", 543.21);
+
+		return account;
+	}
 }
