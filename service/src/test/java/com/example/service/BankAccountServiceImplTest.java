@@ -5,13 +5,17 @@ import org.junit.jupiter.api.Test;
 
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.TestingAuthenticationToken;
+import org.springframework.security.authorization.AuthorizationProxyFactory;
+import org.springframework.security.authorization.method.AuthorizationAdvisorProxyFactory;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.context.SecurityContextImpl;
 
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
 class BankAccountServiceImplTest {
-	BankAccountService account = new SecureBankAccountService(new BankAccountServiceImpl());
+	AuthorizationProxyFactory factory = AuthorizationAdvisorProxyFactory.withDefaults();
+
+	BankAccountService account = (BankAccountService) factory.proxy(new BankAccountServiceImpl());
 
 	void login(String user) {
 		TestingAuthenticationToken auth =
