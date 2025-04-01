@@ -15,7 +15,7 @@ import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.junit.jupiter.api.Assertions.*;
 
 class BankAccountServiceTest {
-	BankAccountService account = new BankAccountService();
+	BankAccountService account = new SecureBankAccountService();
 
 	void login(String user) {
 		TestingAuthenticationToken auth =
