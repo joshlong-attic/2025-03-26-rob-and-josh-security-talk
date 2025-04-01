@@ -3,6 +3,8 @@ package com.example.service;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.TestingAuthenticationToken;
 import org.springframework.security.authorization.AuthorizationProxyFactory;
@@ -12,10 +14,11 @@ import org.springframework.security.core.context.SecurityContextImpl;
 
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
+@SpringBootTest
 class BankAccountServiceImplTest {
-	AuthorizationProxyFactory factory = AuthorizationAdvisorProxyFactory.withDefaults();
 
-	BankAccountService account = (BankAccountService) factory.proxy(new BankAccountServiceImpl());
+	@Autowired
+	BankAccountService account;
 
 	void login(String user) {
 		TestingAuthenticationToken auth =
