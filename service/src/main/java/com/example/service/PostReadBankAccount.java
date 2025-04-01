@@ -7,7 +7,7 @@ import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.authorization.method.AuthorizeReturnObject;
 
 @Retention(RetentionPolicy.RUNTIME)
-@PostAuthorize("returnObject?.owner == authentication?.name or hasRole('ACCOUNTANT')")
+@PostAuthorize("@authz.check(authentication, returnObject)")
 @AuthorizeReturnObject
 public @interface PostReadBankAccount {
 }
