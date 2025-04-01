@@ -5,17 +5,13 @@ import org.junit.jupiter.api.Test;
 
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.TestingAuthenticationToken;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.context.SecurityContextImpl;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
 
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.junit.jupiter.api.Assertions.*;
 
-class BankAccountServiceTest {
-	BankAccountService account = new SecureBankAccountService();
+class BankAccountServiceImplTest {
+	BankAccountService account = new SecureBankAccountService(new BankAccountServiceImpl());
 
 	void login(String user) {
 		TestingAuthenticationToken auth =
