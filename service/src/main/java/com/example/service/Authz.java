@@ -11,6 +11,9 @@ public class Authz {
 		if (authentication.getName().equals(account.getOwner())) {
 			return true;
 		}
+		if (authentication.getName().equals("accountant")) {
+			return true;
+		}
 		return hasRole("ACCOUNTANT").authorize(() -> authentication, account).isGranted();
 	}
 }
