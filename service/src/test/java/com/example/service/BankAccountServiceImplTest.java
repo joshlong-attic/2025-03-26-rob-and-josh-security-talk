@@ -52,4 +52,20 @@ class BankAccountServiceImplTest {
 	void findByOwnerWhenAccountantThenGranted() {
 		this.account.findByOwner("rob");
 	}
+
+	@Test
+	@WithMockAccountant
+	void findByIdAccountNumberWhenAccountant() {
+		BankAccount account = this.account.findById(1);
+		assertThatExceptionOfType(AccessDeniedException.class)
+			.isThrownBy(() -> account.getAccountNumber());
+	}
+
+	@Test
+	@WithMockAccountant
+	void findByOwnerAccountNumberWhenAccountant() {
+		BankAccount account = this.account.findByOwner("rob");
+		assertThatExceptionOfType(AccessDeniedException.class)
+				.isThrownBy(() -> account.getAccountNumber());
+	}
 }
