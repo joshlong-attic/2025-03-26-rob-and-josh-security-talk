@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.authorization.AuthorizationDeniedException;
 import org.springframework.security.test.context.support.WithMockUser;
 
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
@@ -67,5 +68,22 @@ class BankAccountServiceImplTest {
 		BankAccount account = this.account.findByOwner("rob");
 		assertThatExceptionOfType(AccessDeniedException.class)
 				.isThrownBy(() -> account.getAccountNumber());
+	}
+
+	@Test
+	@WithMockRob
+	void saveWhenGranted() {
+		BankAccount account =
+				new BankAccount(1, "rob", "12345", 543.21);
+		this.account.save(account);
+	}
+
+	@Test
+	@WithMockJosh
+	void saveWhenDenied() {
+		BankAccount account =
+				new BankAccount(1, "rob", "12345", 543.21);
+		assertThatExceptionOfType(AuthorizationDeniedException.class)
+			.isThrownBy(() -> this.account.save(account));
 	}
 }
