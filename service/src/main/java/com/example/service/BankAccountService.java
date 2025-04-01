@@ -9,6 +9,6 @@ public interface BankAccountService {
 	@PostReadBankAccount
 	BankAccount findByOwner(String owner);
 
-	@PreAuthorize("#account?.owner == authentication?.name")
+	@PreAuthorizeOwner(account = "#account")
 	default void save(BankAccount account) {}
 }

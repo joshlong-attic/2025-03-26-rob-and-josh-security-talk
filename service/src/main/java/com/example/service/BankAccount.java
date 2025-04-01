@@ -23,7 +23,7 @@ public class BankAccount {
 		return owner;
 	}
 
-	@PreAuthorize("this.owner == authentication?.name")
+	@PreAuthorizeOwner(account = "this")
 	public String getAccountNumber() {
 		return accountNumber;
 	}
