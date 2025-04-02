@@ -9,24 +9,25 @@ For the configuration, https://github.com/coffee-software-show/bootiful-grpc-con
 
 - introduce authentication in the abstract (call it `auth`)
 	- start.spring.io
-	- jdbc, postgresql, web, authorization server, security, devtools , testcontainers
+	- jdbc, postgresql, jdbc, web, authorization server, security, devtools , testcontainers
+	- add `webauthn` manually
 	- go to test main method, add `@RestartScope`
 	- RW: security 101 + spring security 101 (authentication, authorization)
 	- introduce in-memory `UserDetailsService` for user management
 	- `PasswordEncoderFactories` to encode passwords
 	- great but this is a password and its in memory
-	- add `schema.sql` and `data.sql`
-	- rename `application.properties` to `application.yml`
-	- run SQL migration
-	    - copy `data.sql` and `schema.sql` to `auth/src/main/resources`
-		- add `sql.init.mode=always` to `application.yml`
+	- copy ~/Desktop/*desjardins*/auth/src/main/resources ~/Downloads/auth/src/main/resources
+	- rm `application.properties`
+	- JDBC + `JdbcUserDetailsManager` + `UserDetailsPasswordService` (which injects `JdbcUserDetailsManager`)
 	- inspect SQL DB and verify passwords are sha prefixed: run `bin/db.sh` to login to DB
 	- login
 	- inspect SQL DB again and verify passwords are bcrypt
-	- password migration
-	- JDBC + `JdbcUserDetailsManager` + `UserDetailsPasswordService` (which injects `JdbcUserDetailsManager`)
+	- passwords done well are still passwords.
 	- passkeys: josh does code but no idea where to go after
 	- passkeys + webauthn: `http://localhost:8080`
+	- RL: walk josh through registering and using a passkey via iPhone / separate device
+	- passkeys + webauthn: `http://localhost:8080`
+	- MAKE SURE TO START QuickTime and use Josh’s iPhone as the camera from macOS so people can see my iPhone activity
 	- RL: walk josh through registering and using a passkey via iPhone / separate device
 	- RL: explanation of the details
 	- alternatively, sometimes u may just want a slightly easier-to-ensure alternative factor. Enter OTT.
